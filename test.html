@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<!-- prevent zoom -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		
+		<style>
+			canvas { border: solid 1px #AAA; }
+			
+			/* disable selections / cut copy paste actions (make sure you want this) */
+			image, canvas {
+				user-select: none;
+				-ms-user-select: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-webkit-touch-callout: none;
+				-webkit-user-drag: none;
+			}
+
+			/* disable callout, image save panel on long press */
+			-webkit-touch-callout: none;
+
+			/* "turn off" link highlight, good for custom pressed states */  
+			-webkit-tap-highlight-color: transparent;
+
+		</style>
+	</head>
+	<body>
+		<h1>Project Mello</h1>
+		<canvas id="mellocanvas" width="600" height="400">
+			<p>Canvas not supported</p>
+		</canvas>
+		
+		<!-- Scripts -->
+		<script src="MelloCanvas.js"></script>
+		
+		<script>
+			//prevent scroll/overscroll 
+			document.body.ontouchstart = function(e) {
+				if (e && e.preventDefault) { e.preventDefault(); }
+				if (e && e.stopPropagation) { e.stopPropagation(); }
+				return false;
+			}
+
+			document.body.ontouchmove = function(e) {
+				if (e && e.preventDefault) { e.preventDefault(); }
+				if (e && e.stopPropagation) { e.stopPropagation(); }
+				return false;
+			}
+
+		
+			var mc = new mello.MelloCanvas(document.getElementById('mellocanvas'));
+		</script>
+	</body>
+</html>
