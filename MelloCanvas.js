@@ -1,6 +1,8 @@
 //namespace: mello
 (function (mello, undefined) {
 	
+    var MAXIMUM_FRAME_DELTA = 160;
+
 	//class: MelloCanvas
 	mello.MelloCanvas = function (canvas) {
 		var me = this; //self-reference
@@ -8,6 +10,8 @@
 		this.width = canvas.width;
 		this.height = canvas.height;
 		this.context = canvas.getContext('2d');
+		this.melloGame = new mello.MelloGame(this);
+		this.graphics = new mello.Graphics(this, this.melloGame);
 		
 		//Draw a test rectangle
 		this.drawTestRectangle = function(x,y,w,h,i) {
@@ -29,6 +33,8 @@
 		}
 		
 		//private method: requestAnimFrame
+		//TODO: if(window.requestAnimationFrame) requestAnimFrameMethod = window.requestAnimationFrame; etc etc
+		// var requestAnimFrame = (function(callback) { return requestAnimFrameMethod; })();
 		var requestAnimFrame = (function(callback) {
 			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
 			function(callback) {
@@ -37,6 +43,7 @@
 		})();
 		
 		var runAnimation = { value: false };
+		var lastFrame = +new Date();
 		
 		//Start Animation
 		this.startAnimation = function() {
@@ -48,21 +55,23 @@
 		this.stopAnimation = function() {
 			runAnimation.value = false;
 		};
-		
+
 		//private method: Animation Loop
-		var animate = function() {		
-			//update
-			//this.game.update(inputData);
+		var animate = function(lastFrame) {		
+		    var now = +new Date(); //new date in milliseconds
+		    var deltaT = Math.min(MAXIMUM_FRAME_DELTA, now - lastFrame); //time since last frame within a maximum limit
+		    //update
+		    me.melloGame.update(deltaT);
 			
-			// clear
-			me.context.clearRect(0, 0, this.width, this.height);
+		    // clear
+		    me.context.clearRect(0, 0, this.width, this.height);
 			
-			//render
-			//this.graphics.render(game);
+		    //render
+		    me.graphics.render(deltaT);
 			
-			//request new frame
-			if(runAnimation.value)
-				animate();
+		    //request new frame
+		    if(runAnimation.value)
+		        requestAnimFrame(function () { return animate(now); });
 		};
 		
 		//Init touch event handler

@@ -2,7 +2,7 @@
 	<head>
 		<!-- prevent zoom -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		
+        <title>Project Mello Test Page</title>
 		<style>
 			canvas { border: solid 1px #AAA; }
 			
@@ -18,10 +18,14 @@
 			}
 
 			/* disable callout, image save panel on long press */
-			-webkit-touch-callout: none;
+		    body {
+		        -webkit-touch-callout: none;
+		    }
 
-			/* "turn off" link highlight, good for custom pressed states */  
-			-webkit-tap-highlight-color: transparent;
+			/* "turn off" link highlight, good for custom pressed states */
+		    body {
+		        -webkit-tap-highlight-color: transparent;
+		    }
 
 		</style>
 	</head>
@@ -33,6 +37,11 @@
 		
 		<!-- Scripts -->
 		<script src="MelloCanvas.js"></script>
+        <script src="MelloGame.js"></script>
+        <script src="Player.js"></script>
+        <script src="Weapon.js"></script>
+        <script src="Level.js"></script>
+        <script src="Graphics.js"></script>
 		
 		<script>
 			//prevent scroll/overscroll 
